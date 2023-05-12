@@ -1,4 +1,2 @@
-import { WorkoutScreen } from "./workout";
-import { EditWorkoutScreen } from "./edit";
-
-export { WorkoutScreen, EditWorkoutScreen };
+export { WorkoutScreen } from "./workout";
+export { EditScreen as EditWorkoutScreen } from "./edit";

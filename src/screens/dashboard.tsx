@@ -7,9 +7,9 @@ export const DashboardScreen = () => {
     const navigation = useNavigation();
 
     return (
-        <SafeAreaView className="flex-1 items-center justify-center bg-white">
+        <SafeAreaView className="bg-[#141414] flex-1 items-center justify-center">
             <View className="items-center py-4">
-                <Text>Home Screen</Text>
+                <Text className="text-white">Home Screen</Text>
             </View>
         </SafeAreaView>
     );

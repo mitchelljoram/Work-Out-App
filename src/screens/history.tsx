@@ -6,9 +6,9 @@ export const HistoryScreen = () => {
     const navigation = useNavigation();
     
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-white">
+      <SafeAreaView className="bg-[#141414] flex-1 items-center justify-center">
         <View className="items-center py-4">
-          <Text>History Screen</Text>
+          <Text className="text-white">History Screen</Text>
         </View>
       </SafeAreaView>
     );

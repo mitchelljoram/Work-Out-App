@@ -7,9 +7,9 @@ export const RoutineScreen = () => {
     const navigation = useNavigation();
 
     return (
-        <SafeAreaView className="flex-1 items-center justify-center bg-white">
+        <SafeAreaView className="bg-[#141414] flex-1 items-center justify-center">
             <View className="items-center py-4">
-                <Text>Routine Screen</Text>
+                <Text className="text-white">Routine Screen</Text>
                 <Button title="Edit" onPress={() => navigation.navigate("Edit-Routine-Screen" as never, {} as never)}/>
             </View>
         </SafeAreaView>

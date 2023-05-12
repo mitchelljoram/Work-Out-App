@@ -15,8 +15,8 @@ export default function Index() {
     <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen key={0} name="Tab-Screen" component={TabNavigator} options={{headerShown: false}}/>
-          <Stack.Screen key={2} name="Edit-Workout-Screen" component={EditWorkoutScreen} options={{headerShown: false}}/>
-          <Stack.Screen key={3} name="Edit-Routine-Screen" component={EditRoutineScreen} options={{headerShown: false}}/>
+          <Stack.Screen key={1} name="Edit-Workout-Screen" component={EditWorkoutScreen} options={{headerShown: false}}/>
+          <Stack.Screen key={2} name="Edit-Routine-Screen" component={EditRoutineScreen} options={{headerShown: false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );
