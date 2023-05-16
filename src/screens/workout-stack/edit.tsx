@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import { useNavigation } from '@react-navigation/native';
 
 /* Libs */
-import { Exercise } from "../../libs/types";
+import { Exercise, RepSet, TimeSet } from "../../libs/types";
 import { useWorkoutStore } from "../../libs/store/workout-store";
 
 export const EditScreen = () => {
@@ -18,12 +18,12 @@ export const EditScreen = () => {
             <View className="items-center justify-center py-4">
                 <Text className="text-white">Edit Workout Screen</Text>
                 <Button title="Bench Press" onPress={() => {
-                    let newExcersize: Exercise = {id: newExerciseId, lift: {id: 1, name: "Bench Press", type: "Chest"}, sets:[{type: "rep", minReps: 4, maxReps: 6, weight: 135, unit: "lb"},{type: "rep", minReps: 4, maxReps: 6, weight: 145, unit: "lb"},{type: "rep", minReps: 4, maxReps: 6, weight: 155, unit: "lb"}] };
+                    let newExcersize: Exercise = {id: newExerciseId, lift: {id: 1, name: "Bench Press", type: "Chest"}, type: "rep", sets: new Array<RepSet>() };
                     addExercise(newExcersize);
                     navigation.navigate("Tab-Screen" as never, {} as never);
                 }}/>
                 <Button title="Running" onPress={() => {
-                    let newExcersize: Exercise = {id: newExerciseId, lift: {id: 2, name: "Running", type: "Cardio"}, sets:[{type: "time", time: 3686}] };
+                    let newExcersize: Exercise = {id: newExerciseId, lift: {id: 2, name: "Running", type: "Cardio"}, type: "time", sets: new Array<TimeSet>() };
                     addExercise(newExcersize);
                     navigation.navigate("Tab-Screen" as never, {} as never);
                 }}/>

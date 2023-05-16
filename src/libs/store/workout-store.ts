@@ -1,5 +1,5 @@
 import { create, StateCreator } from "zustand";
-import { Exercise, Workout } from "../types";
+import { Exercise, Workout, RepSet, TimeSet } from "../types";
 
 interface WorkoutSlice {
   workout: Workout;

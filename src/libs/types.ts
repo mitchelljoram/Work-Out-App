@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export type Lift = {
     id: number;
     name: string;
@@ -7,7 +5,6 @@ export type Lift = {
 };
 
 export type RepSet = {
-    type: "rep";
     minReps: number;
     maxReps: number;
     weight: number;
@@ -15,14 +12,14 @@ export type RepSet = {
 }
 
 export type TimeSet = {
-    type: "time";
     time: number;
 }
 
 export type Exercise = {
     id: number;
     lift: Lift;
-    sets: (RepSet | TimeSet)[];
+    type: "rep" | "time";
+    sets: (RepSet[] | TimeSet[]);
 };
 
 export type Workout = {
