@@ -96,13 +96,13 @@ export const AddExerciseSetScreen = () => {
                         <View>
                             <View className="row-start-1 flex flex-row gap-x-2">
                                 {type === "reps" ? (
-                                <View className="bg-white basis-5/12 rounded-[4px] justify-center items-center flex-row">
+                                <View className="bg-white basis-4/12 rounded-[4px] justify-center items-center flex-row">
                                     <TextInput placeholder="min" keyboardType="numeric" onChangeText={(text)=> setMinReps(Number(text))}/>
                                     <Text>       -       </Text>
                                     <TextInput placeholder="max" keyboardType="numeric" onChangeText={(text)=> setMaxReps(Number(text))}/>
                                 </View>
                                 ) : (
-                                <View className="bg-white basis-5/12 rounded-[4px] justify-center items-center flex-row">
+                                <View className="bg-white basis-4/12 rounded-[4px] justify-center items-center flex-row">
                                     <TextInput placeholder={type === "time" ? ("00:00:00") : ("e.g. 1 - 2 laps")} onChangeText={(text)=> setMinReps(Number(text))}/>
                                 </View>
                                 )}
@@ -128,12 +128,12 @@ export const AddExerciseSetScreen = () => {
                             {type === "reps" ? (
                             <View className="mt-2 flex flex-row gap-x-2">
                                 {unit !== "no weight" ? (
-                                <View className="bg-white basis-5/12 rounded-[4px] justify-center items-center">
+                                <View className="bg-white basis-4/12 rounded-[4px] justify-center items-center">
                                     <TextInput placeholder="weight" keyboardType="numeric" onChangeText={(text)=> setWeight(Number(text))}/>
                                 </View>
                                 ) : (null)
                                 }
-                                <View className={unit !== "no weight" ? "basis-1/4" : "basis-[275px]"}>
+                                <View className={unit !== "no weight" ? "basis-1/4" : "basis-60"}>
                                     <SelectDropdown 
                                         defaultValueByIndex={0}
                                         data={units}
