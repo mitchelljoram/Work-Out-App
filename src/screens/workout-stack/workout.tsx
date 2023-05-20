@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ExerciseSetCard, RepExerciseSetCard } from "../../components/exerciseset-cards";
 
 /* Libs */
-import { ExerciseSet, RepExerciseSet } from "../../libs/interfaces";
+import { ExerciseSet, RepExerciseSet } from "../../libs/types-interfaces-classes";
 import { useWorkoutStore } from "../../libs/stores";
 
 export const WorkoutScreen = () => {
@@ -15,10 +15,12 @@ export const WorkoutScreen = () => {
 
     return (
         <SafeAreaView className="bg-[#141414] flex-1 items-center">
-            <View className="bg-[#1F1F1F] w-screen h-[75px] sticky top-0 items-center justify-center">
-                <Text className="text-white mt-5">{workout.name}</Text>
+            <View className="bg-[#1F1F1F] w-screen h-[75px] sticky top-0">
+                <View className="mt-10 items-center justify-center">
+                    <Text className="text-white">{workout.name}</Text>
+                </View>
             </View>
-            <ScrollView className="mt-2">
+            <ScrollView className="py-2">
                 {workout.exerciseSets.map((exerciseSet: ExerciseSet, index: number) => {
                     if (exerciseSet instanceof RepExerciseSet) { return (<RepExerciseSetCard key={index} {...exerciseSet}/>); }
                     if (exerciseSet instanceof ExerciseSet) { return (<ExerciseSetCard key={index} {...exerciseSet}/>); }

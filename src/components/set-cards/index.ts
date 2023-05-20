@@ -1,2 +1,2 @@
-export { WeightedSetCard } from './weighted-card';
-export { TimedSetCard } from './timed-card';
+export { WeightedSetCard } from './weighted';
+export { TimedSetCard } from './timed';

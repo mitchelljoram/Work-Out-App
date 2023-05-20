@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 
 
 /* Libs */
-import { useWorkoutStore } from "../libs/stores/workout-store";
+import { useWorkoutStore } from "../libs/stores/workout";
 
 export const ExerciseCard = () => {
     /*

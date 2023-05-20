@@ -1,4 +1,4 @@
 export { Exercise } from "./exercise";
-export { WeightedSet, TimedSet, Set } from "./sets";
+export { Set, WeightedSet, TimedSet, CustomSet } from "./sets";
 export { ExerciseSet, RepExerciseSet } from "./exerciseSets";
 export { Workout } from "./workout";

@@ -1,2 +1,2 @@
-export {ExerciseSetCard} from './set-card';
-export {RepExerciseSetCard} from './repset-card';
+export {ExerciseSetCard} from './set';
+export {RepExerciseSetCard} from './repset';

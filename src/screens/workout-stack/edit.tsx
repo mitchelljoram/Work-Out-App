@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button, TextInput } f
 import { useNavigation } from '@react-navigation/native';
 
 /* Libs */
-import { useWorkoutStore } from "../../libs/stores/workout-store";
+import { useWorkoutStore } from "../../libs/stores/workout";
 
 export const EditScreen = () => {
     const navigation = useNavigation();

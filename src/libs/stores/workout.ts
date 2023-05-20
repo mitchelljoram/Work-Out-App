@@ -1,5 +1,5 @@
 import { create, StateCreator } from "zustand";
-import { Workout, ExerciseSet, Set } from "../interfaces";
+import { Workout, ExerciseSet, Set } from "../types-interfaces-classes";
 
 interface WorkoutSlice {
   workout: Workout;

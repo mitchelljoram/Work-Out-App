@@ -5,7 +5,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import { SetIcon } from "./icon";
 
 /* Libs */
-import { WeightedSet } from "../../libs/interfaces";
+import { WeightedSet } from "../../libs/types-interfaces-classes";
 
 export const WeightedSetCard = (set: WeightedSet) => {
     const index: number = set.id;

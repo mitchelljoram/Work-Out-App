@@ -5,7 +5,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import { SetIcon } from "./icon";
 
 /* Libs */
-import { TimedSet } from "../../libs/interfaces";
+import { TimedSet } from "../../libs/types-interfaces-classes";
 
 export const TimedSetCard = (set: TimedSet) => {
     const index: number = set.id;

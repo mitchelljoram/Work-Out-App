@@ -6,10 +6,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { WeightedSetCard, TimedSetCard } from "../set-cards";
 
 /* Libs */
-import { ExerciseSet, Set, WeightedSet, TimedSet } from "../../libs/interfaces";
-import { useWorkoutStore } from "../../libs/stores/workout-store";
+import { RepExerciseSet, Set, WeightedSet, TimedSet } from "../../libs/types-interfaces-classes";
+import { useWorkoutStore } from "../../libs/stores/workout";
 
-export const ExerciseSetCard = (exerciseSet: ExerciseSet) => {
+export const RepExerciseSetCard = (exerciseSet: RepExerciseSet) => {
     const [removeExercise, addSet] = useWorkoutStore((state) => [state.removeExerciseSet, state.addSet]);
 
     return (
@@ -26,7 +26,9 @@ export const ExerciseSetCard = (exerciseSet: ExerciseSet) => {
                 </View>
                 <View className="flex flex-row">
                     <Text className="text-white">{exerciseSet.sets.length}</Text>
-                    <Text className="text-[#858587]"> sets</Text>
+                    <Text className="text-[#858587]"> sets   x   </Text>
+                    <Text className="text-white">{exerciseSet.minReps === exerciseSet.maxReps ? exerciseSet.maxReps : `${exerciseSet.minReps} - ${exerciseSet.maxReps}`}</Text>
+                    <Text className="text-[#858587]"> reps</Text>
                 </View>
             </View>
             {exerciseSet.sets.map((set: Set, index: number) => {

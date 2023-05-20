@@ -29,3 +29,12 @@ export class TimedSet extends Set {
         this.time = time;
     }
 };
+
+export class CustomSet extends Set {
+    custom: string;
+
+    constructor(id: number, custom: string) {
+        super(id);
+        this.custom = custom;
+    }
+}
