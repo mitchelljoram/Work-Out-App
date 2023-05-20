@@ -133,7 +133,7 @@ export const AddExerciseSetScreen = () => {
                                 </View>
                                 ) : (null)
                                 }
-                                <View className={unit !== "no weight" ? "basis-1/4" : "basis-60"}>
+                                <View className={unit !== "no weight" ? "basis-1/4" : "basis-[275px]"}>
                                     <SelectDropdown 
                                         defaultValueByIndex={0}
                                         data={units}
