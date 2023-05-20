@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SafeAreaView, View, ScrollView , Text, Pressable, Button, TextInput, StyleSheet } from "react-native";
 import SelectDropdown from 'react-native-select-dropdown';
+import AndriodCheckBox from 'expo-checkbox';
 import { useNavigation } from '@react-navigation/native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -18,15 +19,15 @@ export const AddExerciseSetScreen = () => {
 
     const [exercise, setExercise] = useState<Exercise>(exercises[0]);
 
-    const [style, setStyle] = useState<string>("Standard");
-    const setStyles = ["Standard", "Combo Set"];
+    const [type, setType] = useState<string>("Standard");
+    const types = ["Standard", "Combo Set"];
 
-    const [type, setType] = useState<string>("reps");
-    const types = ["reps", "time", "custom"];
+    const [notes, setNotes] = useState<string>("");
+
+    const [unit, setUnit] = useState<string>("reps");
+    const units = ["reps", "time", "custom"];
     
-    const [weight, setWeight] = useState<number>(0);
-    const [unit, setUnit] = useState<string>("lbs");
-    const units = ["lbs", "kg", "no weight"];
+    const [weight, setWeight] = useState<boolean>(false);
 
     const [minReps, setMinReps] = useState<number>(0);
     const [maxReps, setMaxReps] = useState<number>(0);
@@ -46,153 +47,144 @@ export const AddExerciseSetScreen = () => {
                     </Pressable>
                 </View>
             </View>
-            <View className="items-center py-2">
-                <View>
-                    <Text className="text-white mb-1">Exercise:</Text>
-                    <SelectDropdown 
-                        search={true}
-                        searchPlaceHolder="Search Exercise..."
-                        defaultButtonText="Select Exercise"
-                        data={exercises}
-                        onSelect={(selectedItem, index) => { setExercise(selectedItem); }}
-                        buttonTextAfterSelection={(selectedItem, index) => { return selectedItem.name; }}
-                        rowTextForSelection={(item, index) => { return item.name; }}
-                        buttonStyle={styles.exercise_button}
-                        buttonTextStyle={styles.button_text}
-                        renderDropdownIcon={isOpened => {
-                            return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
-                        }}
-                        dropdownIconPosition={'right'}
-                        dropdownStyle={styles.dropdown}
-                        rowStyle={styles.row}
-                        rowTextStyle={styles.row_text}
-                    />
-                </View>
-                <View className="mt-2">
-                    <Text className="text-white mb-1">Set Style:</Text>
-                    <SelectDropdown 
-                        defaultButtonText="Select Style"
-                        data={setStyles}
-                        onSelect={(selectedItem, index) => { setStyle(selectedItem); }}
-                        buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
-                        rowTextForSelection={(item, index) => { return item; }}
-                        buttonStyle={styles.exercise_button}
-                        buttonTextStyle={styles.button_text}
-                        renderDropdownIcon={isOpened => {
-                            return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
-                        }}
-                        dropdownIconPosition={'right'}
-                        dropdownStyle={styles.dropdown}
-                        rowStyle={styles.row}
-                        rowTextStyle={styles.row_text}
-                    />
-                </View>
-                <View className="mt-4">
-                    <Text className="text-white mb-1">Sets:</Text>
-                    <View className="flex flex-row items-center">
-                        <View className="basis-2/12 mr-3">
-                            <SetIcon index={1}/>
-                        </View>
-                        <View>
-                            <View className="row-start-1 flex flex-row gap-x-2">
-                                {type === "reps" ? (
-                                <View className="bg-white basis-4/12 rounded-[4px] justify-center items-center flex-row">
-                                    <TextInput placeholder="min" keyboardType="numeric" onChangeText={(text)=> setMinReps(Number(text))}/>
-                                    <Text>       -       </Text>
-                                    <TextInput placeholder="max" keyboardType="numeric" onChangeText={(text)=> setMaxReps(Number(text))}/>
-                                </View>
-                                ) : (
-                                <View className="bg-white basis-4/12 rounded-[4px] justify-center items-center flex-row">
-                                    <TextInput placeholder={type === "time" ? ("00:00:00") : ("e.g. 1 - 2 laps")} onChangeText={(text)=> setMinReps(Number(text))}/>
-                                </View>
-                                )}
-                                <View className="basis-1/4">
-                                    <SelectDropdown 
-                                        defaultValueByIndex={0}
-                                        data={types}
-                                        onSelect={(selectedItem, index) => { setType(selectedItem); }}
-                                        buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
-                                        rowTextForSelection={(item, index) => { return item; }}
-                                        buttonStyle={styles.type_button}
-                                        buttonTextStyle={styles.button_text}
-                                        renderDropdownIcon={isOpened => {
-                                            return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
-                                        }}
-                                        dropdownIconPosition={'right'}
-                                        dropdownStyle={styles.dropdown}
-                                        rowStyle={styles.row}
-                                        rowTextStyle={styles.row_text}
-                                    />
-                                </View>
-                            </View>
-                            {type === "reps" ? (
-                            <View className="mt-2 flex flex-row gap-x-2">
-                                {unit !== "no weight" ? (
-                                <View className="bg-white basis-4/12 rounded-[4px] justify-center items-center">
-                                    <TextInput placeholder="weight" keyboardType="numeric" onChangeText={(text)=> setWeight(Number(text))}/>
-                                </View>
-                                ) : (null)
-                                }
-                                <View className={unit !== "no weight" ? "basis-1/4" : "basis-60"}>
-                                    <SelectDropdown 
-                                        defaultValueByIndex={0}
-                                        data={units}
-                                        onSelect={(selectedItem, index) => { setUnit(selectedItem); }}
-                                        buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
-                                        rowTextForSelection={(item, index) => { return item; }}
-                                        buttonStyle={unit === "no weight" ? (styles.unit_button_noweight) : (styles.unit_button)}
-                                        buttonTextStyle={styles.button_text}
-                                        renderDropdownIcon={isOpened => {
-                                            return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
-                                        }}
-                                        dropdownIconPosition={'right'}
-                                        dropdownStyle={styles.dropdown}
-                                        rowStyle={styles.row}
-                                        rowTextStyle={styles.row_text}
-                                    />
-                                </View>
-                            </View>
-                            ) : (null)
-                            }
+            
+            <ScrollView className="w-screen py-2">
+                <View className="items-center">
+                    <View>
+                        <Text className="text-white mb-1">Exercise</Text>
+                        <SelectDropdown 
+                            search={true}
+                            searchPlaceHolder="Search Exercise..."
+                            defaultButtonText="Select Exercise"
+                            data={exercises}
+                            onSelect={(selectedItem, index) => { setExercise(selectedItem); }}
+                            buttonTextAfterSelection={(selectedItem, index) => { return selectedItem.name; }}
+                            rowTextForSelection={(item, index) => { return item.name; }}
+                            buttonStyle={styles.exercise_button}
+                            buttonTextStyle={styles.button_text}
+                            renderDropdownIcon={isOpened => {
+                                return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
+                            }}
+                            dropdownIconPosition={'right'}
+                            dropdownStyle={styles.dropdown}
+                            rowStyle={styles.row}
+                            rowTextStyle={styles.row_text}
+                        />
+                    </View>
+                    <View className="mt-2">
+                        <Text className="text-white mb-1">Set Type</Text>
+                        <SelectDropdown 
+                            defaultValue={type}
+                            data={types}
+                            onSelect={(selectedItem, index) => { setType(selectedItem); }}
+                            buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
+                            rowTextForSelection={(item, index) => { return item; }}
+                            buttonStyle={styles.exercise_button}
+                            buttonTextStyle={styles.button_text}
+                            renderDropdownIcon={isOpened => {
+                                return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
+                            }}
+                            dropdownIconPosition={'right'}
+                            dropdownStyle={styles.dropdown}
+                            rowStyle={styles.row}
+                            rowTextStyle={styles.row_text}
+                        />
+                    </View>
+                    <View className="mt-2">
+                        <Text className="text-white">Notes</Text>
+                        <View className="bg-white w-[90vw] h-[10vh] rounded-[4px] mt-1 px-2">
+                            <TextInput placeholder="For any notes you need" maxLength={250} multiline={true} onChangeText={(text)=> setNotes(text)}/>
                         </View>
                     </View>
+                    <View className="mt-5">
+                        <View className="flex flex-row items-center gap-x-5">
+                            <Text className="text-white mb-1">Sets</Text>
+                            <View className="flex flex-row gap-x-2">
+                                <AndriodCheckBox
+                                    disabled={false}
+                                    value={weight}
+                                    onValueChange={(newValue) =>  {setWeight(newValue)}}
+                                />
+                                <Text className="text-white">Using weights?</Text>
+                            </View>
+                        </View>
+                        <View className="flex flex-row items-center">
+                            <View className="basis-[10%]">
+                                <SetIcon index={1}/>
+                            </View>
+                            <View className="basis-[5%]"/>
+                            <View className="basis-[70%]">
+                                <View className="flex flex-row">
+                                    {unit === "reps" ? (
+                                    <View className="bg-white basis-[55%] rounded-[4px] justify-center items-center flex-row">
+                                        <TextInput placeholder="min" keyboardType="numeric" onChangeText={(text)=> setMinReps(Number(text))}/>
+                                        <Text>       -       </Text>
+                                        <TextInput placeholder="max" keyboardType="numeric" onChangeText={(text)=> setMaxReps(Number(text))}/>
+                                    </View>
+                                    ) : (
+                                    <View className="bg-white basis-[55%] rounded-[4px] justify-center items-center flex-row">
+                                        <TextInput placeholder={unit === "time" ? ("00:00:00") : ("e.g. 1 - 2 laps")} onChangeText={(text)=> setMinReps(Number(text))}/>
+                                    </View>
+                                    )}
+                                    <View className="basis-[5%]"/>
+                                    <View className="basis-[40%]">
+                                        <SelectDropdown 
+                                            defaultValue={unit}
+                                            data={units}
+                                            onSelect={(selectedItem, index) => { setUnit(selectedItem); }}
+                                            buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
+                                            rowTextForSelection={(item, index) => { return item; }}
+                                            buttonStyle={styles.type_button}
+                                            buttonTextStyle={styles.button_text}
+                                            renderDropdownIcon={isOpened => {
+                                                return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
+                                            }}
+                                            dropdownIconPosition={'right'}
+                                            dropdownStyle={styles.dropdown}
+                                            rowStyle={styles.row}
+                                            rowTextStyle={styles.row_text}
+                                        />
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    <Pressable className="bg-[#757575] h-[40px] w-[90vw] rounded-[4px] items-center justify-center mt-2" onPress={() => { }}>
+                        <Text className="text-white">+ Add Set</Text>
+                    </Pressable>
                 </View>
+            </ScrollView>
 
-                <Pressable className="bg-[#757575] h-[50px] w-[90vw] rounded-[4px] items-center justify-center mt-4" onPress={() => { }}>
-                    <Text className="text-white">+ Add Set</Text>
-                </Pressable>
+            <Pressable className="bg-[#757575] h-[40px] w-[90vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {
+                /*
+                let newExcersizeSet: ExerciseSet;
+                let newSet: Set | WeightedSet | TimedSet;
 
-                <Pressable className="bg-[#757575] h-[50px] w-[90vw] rounded-[4px] items-center justify-center mt-4" onPress={() => {
-                    /*
-                    let newExcersizeSet: ExerciseSet;
-                    let newSet: Set | WeightedSet | TimedSet;
-
-                    if (unit === "no weight") {
-                        newSet = new Set(1);
+                if (unit === "no weight") {
+                    newSet = new Set(1);
+                }
+                else {
+                    if (unit === "lbs" || unit === "kgs") {
+                        newSet = new WeightedSet(1, Number(quantity), unit);
                     }
                     else {
-                        if (unit === "lbs" || unit === "kgs") {
-                            newSet = new WeightedSet(1, Number(quantity), unit);
-                        }
-                        else {
-                            newSet = new TimedSet(1, quantity);
-                        }
+                        newSet = new TimedSet(1, quantity);
                     }
+                }
 
-                    if (type === "Reps" || type === "Range") {
-                        newExcersizeSet = new RepExerciseSet(newExerciseSetId, exercise, [newSet], minReps, (maxReps > 0 ? maxReps : minReps));
-                    }
-                    else {
-                        newExcersizeSet = new ExerciseSet(newExerciseSetId, exercise, [newSet]);
-                    }
+                if (type === "Reps" || type === "Range") {
+                    newExcersizeSet = new RepExerciseSet(newExerciseSetId, exercise, [newSet], minReps, (maxReps > 0 ? maxReps : minReps));
+                }
+                else {
+                    newExcersizeSet = new ExerciseSet(newExerciseSetId, exercise, [newSet]);
+                }
 
-                    addExerciseSet(newExcersizeSet);
-                    */
-                    navigation.navigate("Tab-Screen" as never, {} as never);
-                }}>
-                    <Text className="text-white">Save</Text>
-                </Pressable>
-            </View>
+                addExerciseSet(newExcersizeSet);
+                */
+                navigation.navigate("Tab-Screen" as never, {} as never);
+            }}>
+                <Text className="text-white">Save</Text>
+            </Pressable>
         </SafeAreaView>
     );
 };
@@ -225,17 +217,16 @@ const styles = StyleSheet.create({
     button_text: {
         color: "#FFFFFF",
         fontSize: 14,
-        textAlign: 'center',
     },
     dropdown: {
         borderRadius: 4,
-        transform: [{ translateY: -25 }],
+        transform: [{ translateY: -15 }],
     },
     row: {
         height: 30,
     },
     row_text: {
         fontSize: 14,
-        textAlign: 'center',
+        textAlign: 'left',
     },
 });
