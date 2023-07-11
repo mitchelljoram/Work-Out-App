@@ -26,7 +26,9 @@ export const WorkoutScreen = () => {
                     if (exerciseSet instanceof ExerciseSet) { return (<ExerciseSetCard key={index} {...exerciseSet}/>); }
                     return null;
                 })}
-                <Button title="+ Add Exercise" onPress={() => navigation.navigate("Add-ExerciseSet-Screen" as never, {} as never)}/>
+                <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky" onPress={() => navigation.navigate("Add-ExerciseSet-Screen" as never)}>
+                    <Text className="text-white">+ Add Exercise</Text>
+                </Pressable>
             </ScrollView>
         </SafeAreaView>
     );
