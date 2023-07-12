@@ -203,7 +203,7 @@ export const AddExerciseSetScreen = () => {
             </ScrollView>
             
             <View className="flex flex-row items-center justify-center gap-x-2">
-                <Pressable className="bg-[#757575] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {setSets(prevSets => [...prevSets, {id: prevSets[prevSets.length-1].id + 1, minReps: 0, maxReps: 0}])}}>
+                <Pressable className="bg-[#757575] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {setSets(prevSets => [...prevSets, {id: prevSets.length+1, minReps: 0, maxReps: 0}])}}>
                     <Text className="text-white">+ Add Set</Text>
                 </Pressable>
                 <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {
