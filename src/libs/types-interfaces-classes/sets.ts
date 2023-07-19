@@ -1,27 +1,34 @@
 interface SetInterface {
     id: number;
+    weight?: number;
 };
 
 export class Set implements SetInterface {
     id: number;
+    weight?: number
 
     constructor(id: number) {
         this.id = id;
+        this.weight = 0;
     };
-};
 
-export class WeightedSet extends Set {
-    weight: number;
-    unit: string;
-
-    constructor(id: number, weight: number, unit: string) {
-        super(id);
+    setWeight = (weight: number): void => {
         this.weight = weight;
-        this.unit = unit;
     }
 };
 
-export class TimedSet extends Set {
+export class RepSet extends Set {
+    minReps: number;
+    maxReps: number;
+
+    constructor(id: number, minReps: number, maxReps: number) {
+        super(id);
+        this.minReps = minReps;
+        this.maxReps = maxReps;
+    }
+};
+
+export class TimeSet extends Set {
     time: string;
 
     constructor(id: number, time: string) {

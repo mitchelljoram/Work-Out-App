@@ -1,4 +1,4 @@
-import { ExerciseSet, RepExerciseSet } from './exerciseSets';
+import { ExerciseSet } from './exerciseSets';
 
 export type Workout  = {
     id: number;

@@ -9,7 +9,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { SetIcon } from "../../components/set-cards/icon";
 
 /* Libs */
-import { Exercise, Set, WeightedSet, TimedSet, CustomSet, ExerciseSet, RepExerciseSet } from "../../libs/types-interfaces-classes";
+import { Exercise, Set, RepSet, TimeSet, CustomSet, ExerciseSet } from "../../libs/types-interfaces-classes";
 import { useExerciseStore, useWorkoutStore } from "../../libs/stores";
 
 export const AddExerciseSetScreen = () => {
@@ -27,9 +27,9 @@ export const AddExerciseSetScreen = () => {
     const [metric, setMetric] = useState<string>("reps");
     const metrics = ["reps", "time", "custom"];
 
-    const [weight, setWeight] = useState<boolean>(false);
+    const [usingWeights, setUsingWeights] = useState<boolean>(false);
 
-    const [sets, setSets] = useState<any[]>([{id: 1, minReps: 0, maxReps: 0}]);
+    const [sets, setSets] = useState<any[]>([{id: 1, minReps: 0, maxReps: 0, time: "", custom: ""}]);
     
 
     let newExerciseSetId: number = workout.exerciseSets.length === 0 ? (1) : (Math.max(...workout.exerciseSets.map(e => e.id)) + 1);
@@ -71,24 +71,34 @@ export const AddExerciseSetScreen = () => {
                             rowTextStyle={styles.row_text}
                         />
                     </View>
-                    <View className="mt-2">
-                        <Text className="text-white mb-1">Set Type</Text>
-                        <SelectDropdown 
-                            defaultValue={type}
-                            data={types}
-                            onSelect={(selectedItem, index) => { setType(selectedItem); }}
-                            buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
-                            rowTextForSelection={(item, index) => { return item; }}
-                            buttonStyle={styles.exercise_button}
-                            buttonTextStyle={styles.button_text}
-                            renderDropdownIcon={isOpened => {
-                                return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
-                            }}
-                            dropdownIconPosition={'right'}
-                            dropdownStyle={styles.dropdown}
-                            rowStyle={styles.row}
-                            rowTextStyle={styles.row_text}
-                        />
+                    <View className="flex flex-row items-center mt-2">
+                        <View>
+                            <Text className="text-white mb-1">Set Type</Text>
+                            <SelectDropdown 
+                                defaultValue={type}
+                                data={types}
+                                onSelect={(selectedItem, index) => { setType(selectedItem); }}
+                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem; }}
+                                rowTextForSelection={(item, index) => { return item; }}
+                                buttonStyle={styles.type_button}
+                                buttonTextStyle={styles.button_text}
+                                renderDropdownIcon={isOpened => {
+                                    return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} size={20} color="white"/>;
+                                }}
+                                dropdownIconPosition={'right'}
+                                dropdownStyle={styles.dropdown}
+                                rowStyle={styles.row}
+                                rowTextStyle={styles.row_text}
+                            />
+                        </View>
+                        <View className="flex flex-row gap-x-2">
+                            <AndriodCheckBox
+                                disabled={false}
+                                value={usingWeights}
+                                onValueChange={(newValue) =>  {setUsingWeights(newValue)}}
+                            />
+                            <Text className="text-white">Using weights?</Text>
+                        </View>
                     </View>
                     <View className="mt-2">
                         <Text className="text-white">Notes</Text>
@@ -100,14 +110,6 @@ export const AddExerciseSetScreen = () => {
                     <View className="mt-8">
                         <View className="flex flex-row items-center gap-x-5">
                             <Text className="text-white mb-1">Sets</Text>
-                            <View className="flex flex-row gap-x-2">
-                                <AndriodCheckBox
-                                    disabled={false}
-                                    value={weight}
-                                    onValueChange={(newValue) =>  {setWeight(newValue)}}
-                                />
-                                <Text className="text-white">Using weights?</Text>
-                            </View>
                         </View>
                         <View className="flex flex-row items-center mt-3">
                             <View className="basis-[10%]">
@@ -131,13 +133,25 @@ export const AddExerciseSetScreen = () => {
                                         </View>
                                     </View>
                                     ) : (
+                                    metric === "time" ? (
                                     <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                        <TextInput placeholder={metric === "time" ? ("00:00:00") : ("e.g. 1 - 2 laps")} onChangeText={(text)=> setSets([...sets].map(set => {
-                                            if(set.id === 1) return ({...set, minReps: Number(text)})
+                                        <TextInput placeholder="00:00:00" onChangeText={(text)=> setSets([...sets].map(set => {
+                                            if(set.id === 1) {
+                                                return {...set, time: text}
+                                            }
                                             return set;
                                         }))}/>
                                     </View>
-                                    )}
+                                    ) : (
+                                    <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
+                                        <TextInput placeholder="e.g. 1 - 2 laps" onChangeText={(text)=> setSets([...sets].map(set => {
+                                            if(set.id === 1) {
+                                                return {...set, custom: text};
+                                            }
+                                            return set;
+                                        }))}/>
+                                    </View>
+                                    ))}
                                     <View className="basis-[5%]"/>
                                     <View className="basis-[40%]">
                                         <SelectDropdown 
@@ -187,13 +201,25 @@ export const AddExerciseSetScreen = () => {
                                             </View>
                                         </View>
                                         ) : (
+                                        metric === "time" ? (
                                         <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                            <TextInput placeholder={metric === "time" ? ("00:00:00") : ("e.g. 1 - 2 laps")} onChangeText={(text)=> setSets([...sets].map(set => {
-                                                if(set.id === index) return ({...set, minReps: Number(text)})
+                                            <TextInput placeholder="00:00:00" onChangeText={(text)=> setSets([...sets].map(set => {
+                                                if(set.id === index) {
+                                                    return {...set, time: text}
+                                                }
                                                 return set;
                                             }))}/>
                                         </View>
-                                        )}
+                                        ) : (
+                                        <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
+                                            <TextInput placeholder="e.g. 1 - 2 laps" onChangeText={(text)=> setSets([...sets].map(set => {
+                                                if(set.id === index) {
+                                                    return {...set, custom: text};
+                                                }
+                                                return set;
+                                            }))}/>
+                                        </View>
+                                        ))}
                                     </View>
                                 </View>
                             </View>
@@ -207,31 +233,27 @@ export const AddExerciseSetScreen = () => {
                     <Text className="text-white">+ Add Set</Text>
                 </Pressable>
                 <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {
-                    /*
-                    let newExcersizeSet: ExerciseSet;
-                    let newSet: Set | WeightedSet | TimedSet;
 
-                    if (metric === "no weight") {
-                        newSet = new Set(1);
-                    }
-                    else {
-                        if (unit === "lbs" || unit === "kgs") {
-                            newSet = new WeightedSet(1, Number(quantity), unit);
+                    let newExcersizeSet: ExerciseSet = new ExerciseSet(1,exercise,usingWeights,[]);
+
+                    let newSet: Set;
+
+                    sets.forEach(set => {
+                        if (metric === "reps") {
+                            newSet = new RepSet(set.id, set.minReps, set.maxReps);
+                        }
+                        else if (metric === "time") {
+                            newSet = new TimeSet(set.id, set.time);
                         }
                         else {
-                            newSet = new TimedSet(1, quantity);
+                            newSet = new CustomSet(set.id, set.custom);
                         }
-                    }
 
-                    if (type === "Reps" || type === "Range") {
-                        newExcersizeSet = new RepExerciseSet(newExerciseSetId, exercise, [newSet], minReps, (maxReps > 0 ? maxReps : minReps));
-                    }
-                    else {
-                        newExcersizeSet = new ExerciseSet(newExerciseSetId, exercise, [newSet]);
-                    }
+                        newExcersizeSet.addSet(newSet);
+                    });
 
                     addExerciseSet(newExcersizeSet);
-                    */
+
                     navigation.navigate("Tab-Screen" as never);
                 }}>
                     <Text className="text-white">Save</Text>
@@ -250,18 +272,6 @@ const styles = StyleSheet.create({
         borderRadius: 4,
     },
     type_button: {
-        width: "auto",
-        height: 30,
-        backgroundColor: "#757575",
-        borderRadius: 4,
-    },
-    unit_button: {
-        width: "auto",
-        height: 30,
-        backgroundColor: "#757575",
-        borderRadius: 4,
-    },
-    unit_button_noweight: {
         width: "auto",
         height: 30,
         backgroundColor: "#757575",

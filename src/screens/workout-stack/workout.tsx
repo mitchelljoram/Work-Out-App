@@ -3,10 +3,10 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import { useNavigation } from '@react-navigation/native';
 
 /* Components */
-import { ExerciseSetCard, RepExerciseSetCard } from "../../components/exerciseset-cards";
+import { ExerciseSetCard, WeightedExerciseSetCard } from "../../components/exerciseset-cards";
 
 /* Libs */
-import { ExerciseSet, RepExerciseSet } from "../../libs/types-interfaces-classes";
+import { ExerciseSet } from "../../libs/types-interfaces-classes";
 import { useWorkoutStore } from "../../libs/stores";
 
 export const WorkoutScreen = () => {
@@ -22,9 +22,8 @@ export const WorkoutScreen = () => {
             </View>
             <ScrollView className="py-2">
                 {workout.exerciseSets.map((exerciseSet: ExerciseSet, index: number) => {
-                    if (exerciseSet instanceof RepExerciseSet) { return (<RepExerciseSetCard key={index} {...exerciseSet}/>); }
-                    if (exerciseSet instanceof ExerciseSet) { return (<ExerciseSetCard key={index} {...exerciseSet}/>); }
-                    return null;
+                    if (exerciseSet.usingWeights) { return (<WeightedExerciseSetCard key={index} {...exerciseSet}/>); }
+                    else { return (<ExerciseSetCard key={index} {...exerciseSet}/>); }
                 })}
                 <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky" onPress={() => navigation.navigate("Add-ExerciseSet-Screen" as never)}>
                     <Text className="text-white">+ Add Exercise</Text>
