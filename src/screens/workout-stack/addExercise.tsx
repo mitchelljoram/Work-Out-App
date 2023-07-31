@@ -12,6 +12,14 @@ import { SetIcon } from "../../components/set-cards/icon";
 import { Exercise, Set, RepSet, TimeSet, CustomSet, ExerciseSet } from "../../libs/types-interfaces-classes";
 import { useExerciseStore, useWorkoutStore } from "../../libs/stores";
 
+interface SetProps {
+    id: number;
+    minReps: number;
+    maxReps: number;
+    time: string;
+    custom: string;
+}
+
 export const AddExerciseSetScreen = (newExerciseId: number) => {
     const navigation = useNavigation();
     const [workout, addExerciseSet] = useWorkoutStore((state) => [state.workout, state.addExerciseSet]);
@@ -27,12 +35,9 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
     const [metric, setMetric] = useState<string>("reps");
     const metrics = ["reps", "time", "custom"];
 
-    const [usingWeights, setUsingWeights] = useState<boolean>(false);
+    const [usingWeights, setUsingWeights] = useState<boolean>(true);
 
-    const [sets, setSets] = useState<any[]>([{id: 1, minReps: 0, maxReps: 0, time: "", custom: ""}]);
-    
-
-    let newExerciseSetId: number = workout.exerciseSets.length === 0 ? (1) : (Math.max(...workout.exerciseSets.map(e => e.id)) + 1);
+    const [sets, setSets] = useState<SetProps[]>([{id: 0, minReps: 0, maxReps: 0, time: "", custom: ""}]);
 
     return (
         <SafeAreaView className="bg-[#141414] flex-1 items-center">
@@ -91,11 +96,11 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                 rowTextStyle={styles.row_text}
                             />
                         </View>
-                        <View className="basis-[40%] flex flex-row items-center gap-x-2">
-                            <Pressable onPress={() => { setUsingWeights(!usingWeights); }}>
+                        <View className="basis-[40%] flex items-center">
+                            <Pressable className="flex flex-row items-center gap-x-2" onPress={() => { setUsingWeights(!usingWeights); }}>
                                 <Icon name="weight" size={30} color={usingWeights ? "white" : "#757575"}/>
+                                <Text className="text-white">{usingWeights ? "Using Weights" : "No Weights"}</Text>
                             </Pressable>
-                            <Text className="text-white">{usingWeights ? "Using Weights" : "No Weights"}</Text>
                         </View>
                     </View>
                     <View className="mt-2">
@@ -105,53 +110,55 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                         </View>
                     </View>
 
-                    <View className="mt-8">
-                        <View className="flex flex-row items-center gap-x-5">
-                            <Text className="text-white mb-1">Sets</Text>
-                        </View>
-                        <View className="flex flex-row items-center mt-3">
-                            <View className="basis-[10%]">
-                                <SetIcon index={1}/>
-                            </View>
-                            <View className="basis-[5%]"/>
-                            <View className="basis-[70%]">
-                                <View className="flex flex-row">
-                                    {metric === "reps" ? (
-                                    <View>
-                                        <View className="bg-white basis-[55%] w-[151px] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                            <TextInput placeholder="min" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map(set => {
-                                                if(set.id === 1) return ({...set, minReps: Number(text)})
-                                                return set;
-                                            }))}/>
-                                            <Text>       -       </Text>
-                                            <TextInput placeholder="max" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map(set => {
-                                                if(set.id === 1) return ({...set, maxReps: Number(text)})
-                                                return set;
-                                            }))}/>
-                                        </View>
+                    <View className="flex flex-start mt-8">
+                        <Text className="text-white">Sets</Text>
+                        {sets.map((_, index) => {
+                            return (
+                                <View key={index} className="flex flex-row items-center mt-2">
+                                    <View className="basis-[10%]">
+                                        <SetIcon index={index+1}/>
                                     </View>
-                                    ) : (
-                                    metric === "time" ? (
-                                    <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                        <TextInput placeholder="00:00:00" onChangeText={(text)=> setSets([...sets].map(set => {
-                                            if(set.id === 1) {
-                                                return {...set, time: text}
-                                            }
-                                            return set;
-                                        }))}/>
-                                    </View>
-                                    ) : (
-                                    <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                        <TextInput placeholder="e.g. 1 - 2 laps" onChangeText={(text)=> setSets([...sets].map(set => {
-                                            if(set.id === 1) {
-                                                return {...set, custom: text};
-                                            }
-                                            return set;
-                                        }))}/>
-                                    </View>
-                                    ))}
                                     <View className="basis-[5%]"/>
                                     <View className="basis-[40%]">
+                                        <View className="flex flex-row">
+                                            {metric === "reps" ? (
+                                            <View>
+                                                <View className="bg-white basis-[55%] w-[151px] h-[30px] rounded-[4px] justify-center items-center flex-row">
+                                                    <TextInput placeholder="min" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                        if(set.id === index) return ({...set, minReps: Number(text)})
+                                                        return set;
+                                                    }))}/>
+                                                    <Text>       -       </Text>
+                                                    <TextInput placeholder="max" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                        if(set.id === index) return ({...set, maxReps: Number(text)})
+                                                        return set;
+                                                    }))}/>
+                                                </View>
+                                            </View>
+                                            ) : (
+                                            metric === "time" ? (
+                                            <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
+                                                <TextInput placeholder="00:00:00" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                    if(set.id === index) {
+                                                        return {...set, time: text}
+                                                    }
+                                                    return set;
+                                                }))}/>
+                                            </View>
+                                            ) : (
+                                            <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
+                                                <TextInput placeholder="e.g. 1 - 2 laps" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                    if(set.id === index) {
+                                                        return {...set, custom: text};
+                                                    }
+                                                    return set;
+                                                }))}/>
+                                            </View>
+                                            ))}
+                                        </View>
+                                    </View>
+                                    {index === 0 ? (
+                                    <View className="basis-[30%]">
                                         <SelectDropdown 
                                             defaultValue={metric}
                                             data={metrics}
@@ -169,65 +176,16 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                             rowTextStyle={styles.row_text}
                                         />
                                     </View>
+                                    ) : null}
                                 </View>
-                            </View>
-                        </View>
+                            );
+                        })}
                     </View>
-                    {sets.map((_, index) => {
-                        if(sets.length === 1 || index == 0) return null;
-
-                        return (
-                            <View key={index} className="flex flex-row items-center mt-2">
-                                <View className="basis-[10%]">
-                                    <SetIcon index={index+1}/>
-                                </View>
-                                <View className="basis-[5%]"/>
-                                <View className="basis-[70%]">
-                                    <View className="flex flex-row">
-                                        {metric === "reps" ? (
-                                        <View>
-                                            <View className="bg-white basis-[55%] w-[151px] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                                <TextInput placeholder="min" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map(set => {
-                                                    if(set.id === index) return ({...set, minReps: Number(text)})
-                                                    return set;
-                                                }))}/>
-                                                <Text>       -       </Text>
-                                                <TextInput placeholder="max" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map(set => {
-                                                    if(set.id === index) return ({...set, maxReps: Number(text)})
-                                                    return set;
-                                                }))}/>
-                                            </View>
-                                        </View>
-                                        ) : (
-                                        metric === "time" ? (
-                                        <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                            <TextInput placeholder="00:00:00" onChangeText={(text)=> setSets([...sets].map(set => {
-                                                if(set.id === index) {
-                                                    return {...set, time: text}
-                                                }
-                                                return set;
-                                            }))}/>
-                                        </View>
-                                        ) : (
-                                        <View className="bg-white basis-[55%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                            <TextInput placeholder="e.g. 1 - 2 laps" onChangeText={(text)=> setSets([...sets].map(set => {
-                                                if(set.id === index) {
-                                                    return {...set, custom: text};
-                                                }
-                                                return set;
-                                            }))}/>
-                                        </View>
-                                        ))}
-                                    </View>
-                                </View>
-                            </View>
-                        );
-                    })}
                 </View>
             </ScrollView>
             
             <View className="flex flex-row items-center justify-center gap-x-2">
-                <Pressable className="bg-[#757575] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {setSets(prevSets => [...prevSets, {id: prevSets.length+1, minReps: 0, maxReps: 0}])}}>
+                <Pressable className="bg-[#757575] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {setSets(prevSets => [...prevSets, {id: sets[sets.length-1].id+1, minReps: 0, maxReps: 0, time: "", custom: ""}]);}}>
                     <Text className="text-white">+ Add Set</Text>
                 </Pressable>
                 <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {
@@ -236,7 +194,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
 
                     let newSet: Set;
 
-                    sets.forEach(set => {
+                    sets.forEach((set: SetProps, index: number) => {
                         if (metric === "reps") {
                             newSet = new RepSet(set.id, set.minReps, set.maxReps);
                         }

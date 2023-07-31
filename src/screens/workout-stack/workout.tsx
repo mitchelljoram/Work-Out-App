@@ -30,7 +30,7 @@ export const WorkoutScreen = () => {
                     if (exerciseSet.usingWeights) { return (<WeightedExerciseSetCard key={index} {...exerciseSet}/>); }
                     else { return (<ExerciseSetCard key={index} {...exerciseSet}/>); }
                 })}
-                <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky" onPress={() => navigation.navigate("Add-ExerciseSet-Screen", {newExerciseId: workout.exerciseSets.length+1})}>
+                <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky" onPress={() => navigation.navigate("Add-ExerciseSet-Screen", {newExerciseId: workout.exerciseSets.length === 0 ? 1 : workout.exerciseSets[workout.exerciseSets.length-1].id+1})}>
                     <Text className="text-white">+ Add Exercise</Text>
                 </Pressable>
             </ScrollView>
