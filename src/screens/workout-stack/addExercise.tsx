@@ -12,7 +12,7 @@ import { SetIcon } from "../../components/set-cards/icon";
 import { Exercise, Set, RepSet, TimeSet, CustomSet, ExerciseSet } from "../../libs/types-interfaces-classes";
 import { useExerciseStore, useWorkoutStore } from "../../libs/stores";
 
-export const AddExerciseSetScreen = () => {
+export const AddExerciseSetScreen = (newExerciseId: number) => {
     const navigation = useNavigation();
     const [workout, addExerciseSet] = useWorkoutStore((state) => [state.workout, state.addExerciseSet]);
     const [exercises] = useExerciseStore((state) => [state.exercises]);
@@ -71,8 +71,8 @@ export const AddExerciseSetScreen = () => {
                             rowTextStyle={styles.row_text}
                         />
                     </View>
-                    <View className="flex flex-row items-center mt-2">
-                        <View>
+                    <View className="flex flex-row items-end mt-2 gap-5">
+                        <View className="basis-[40%]">
                             <Text className="text-white mb-1">Set Type</Text>
                             <SelectDropdown 
                                 defaultValue={type}
@@ -91,13 +91,11 @@ export const AddExerciseSetScreen = () => {
                                 rowTextStyle={styles.row_text}
                             />
                         </View>
-                        <View className="flex flex-row gap-x-2">
-                            <AndriodCheckBox
-                                disabled={false}
-                                value={usingWeights}
-                                onValueChange={(newValue) =>  {setUsingWeights(newValue)}}
-                            />
-                            <Text className="text-white">Using weights?</Text>
+                        <View className="basis-[40%] flex flex-row items-center gap-x-2">
+                            <Pressable onPress={() => { setUsingWeights(!usingWeights); }}>
+                                <Icon name="weight" size={30} color={usingWeights ? "white" : "#757575"}/>
+                            </Pressable>
+                            <Text className="text-white">{usingWeights ? "Using Weights" : "No Weights"}</Text>
                         </View>
                     </View>
                     <View className="mt-2">
@@ -179,7 +177,7 @@ export const AddExerciseSetScreen = () => {
                         if(sets.length === 1 || index == 0) return null;
 
                         return (
-                            <View className="flex flex-row items-center mt-2">
+                            <View key={index} className="flex flex-row items-center mt-2">
                                 <View className="basis-[10%]">
                                     <SetIcon index={index+1}/>
                                 </View>
@@ -234,7 +232,7 @@ export const AddExerciseSetScreen = () => {
                 </Pressable>
                 <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky bottom-5" onPress={() => {
 
-                    let newExcersizeSet: ExerciseSet = new ExerciseSet(1,exercise,usingWeights,[]);
+                    let newExcersizeSet: ExerciseSet = new ExerciseSet(newExerciseId,exercise,usingWeights,[]);
 
                     let newSet: Set;
 
