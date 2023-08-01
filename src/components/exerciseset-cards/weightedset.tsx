@@ -3,13 +3,13 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 /* Components */
-import { RepSetCard, TimeSetCard } from "../set-cards";
+import { RepSetCard, TimeSetCard, WeightedRepSetCard } from "../set-cards";
 
 /* Libs */
 import { ExerciseSet, Set, RepSet, TimeSet, CustomSet } from "../../libs/types-interfaces-classes";
 import { useWorkoutStore } from "../../libs/stores/workout";
 
-interface SetCardsProps {
+interface SetCardProps {
     minReps?: number;
     maxReps?: number;
     time?: string;
@@ -26,7 +26,7 @@ export const WeightedExerciseSetCard = (exerciseSet: ExerciseSet) => {
     let time: string = exerciseSet.sets[0] instanceof TimeSet ? exerciseSet.sets[0].time : "";
     let custom: string = exerciseSet.sets[0] instanceof CustomSet ? exerciseSet.sets[0].custom : "";
     let sets: Set[] = [exerciseSet.sets[0]];
-    let setCards: SetCardsProps[] = [];
+    let setCards: SetCardProps[] = [];
 
     exerciseSet.sets.forEach((set: Set, index: number) => {
         if (index === 0) { return; }
@@ -81,7 +81,7 @@ export const WeightedExerciseSetCard = (exerciseSet: ExerciseSet) => {
 
     return (
         <View key={exerciseSet.id} className="bg-[#1F1F1F] w-[360px] px-4 py-2 my-1 rounded-md">
-            <View>
+            <View className="mb-2">
                 <View className="flex-row justify-between items-center">
                     <Text className="text-white text-base font-bold">{exerciseSet.exercise.name}</Text>
                     <View className="flex-row justify-between w-12">
@@ -96,10 +96,13 @@ export const WeightedExerciseSetCard = (exerciseSet: ExerciseSet) => {
                     <Text className="text-[#858587]"> sets</Text>
                 </View>
             </View>
-            {setCards.map((setCardsProps: SetCardsProps, index: number) => {
+            {setCards.map((setCardProps: SetCardProps, index: number) => {
                 return (
-                <View key={index}>
-                    {setCardsProps.minReps && setCardsProps.maxReps ? (<Text className="text-white">{` ${setCardsProps.minReps === setCardsProps.maxReps ? setCardsProps.minReps : `${setCardsProps.minReps} - ${setCardsProps.maxReps}`}  x  ${setCardsProps.numSets}`}</Text>) : (null)}
+                <View key={index} className="mb-2">
+                    {setCardProps.sets[0] instanceof RepSet ? (
+                    <Text className="text-white">{` ${setCardProps.minReps === setCardProps.maxReps ? setCardProps.minReps : `${setCardProps.minReps} - ${setCardProps.maxReps}`}  x  ${setCardProps.numSets}`}</Text>
+                    ) : null}
+                    {setCardProps.sets.map((set: Set, index: number) => {return (<WeightedRepSetCard key={index} {...set}/>)})}
                 </View>
                 )
             })}

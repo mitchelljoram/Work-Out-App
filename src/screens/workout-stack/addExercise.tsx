@@ -96,7 +96,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                 rowTextStyle={styles.row_text}
                             />
                         </View>
-                        <View className="basis-[40%] flex items-center">
+                        <View className="basis-[40%] flex items-start">
                             <Pressable className="flex flex-row items-center gap-x-2" onPress={() => { setUsingWeights(!usingWeights); }}>
                                 <Icon name="weight" size={30} color={usingWeights ? "white" : "#757575"}/>
                                 <Text className="text-white">{usingWeights ? "Using Weights" : "No Weights"}</Text>
