@@ -1,3 +1,4 @@
 export { RepSetCard } from './rep';
 export { TimeSetCard } from './time';
-export { WeightedRepSetCard } from './weightedRep';
+export { CustomSetCard } from './custom';
+export { WeightedSetCard } from './weighted';

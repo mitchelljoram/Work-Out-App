@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 /* Components */
 import { ExerciseSetCard, WeightedExerciseSetCard } from "../../components/exerciseset-cards";
@@ -30,8 +31,9 @@ export const WorkoutScreen = () => {
                     if (exerciseSet.usingWeights) { return (<WeightedExerciseSetCard key={index} {...exerciseSet}/>); }
                     else { return (<ExerciseSetCard key={index} {...exerciseSet}/>); }
                 })}
-                <Pressable className="bg-[#2295f3] h-[40px] w-[45vw] rounded-[4px] items-center justify-center sticky" onPress={() => navigation.navigate("Add-ExerciseSet-Screen", {newExerciseId: workout.exerciseSets.length === 0 ? 1 : workout.exerciseSets[workout.exerciseSets.length-1].id+1})}>
-                    <Text className="text-white">+ Add Exercise</Text>
+                <Pressable className="flex flex-row bg-[#2295f3] h-[40px] w-[90vw] rounded-[4px] mt-3 mb-6 items-center justify-center sticky" onPress={() => navigation.navigate("Add-ExerciseSet-Screen", {newExerciseId: workout.exerciseSets.length === 0 ? 1 : workout.exerciseSets[workout.exerciseSets.length-1].id+1})}>
+                    <Icon name="plus" size={20} color="#fff"/>
+                    <Text className="text-white ml-2">Add Exercise</Text>
                 </Pressable>
             </ScrollView>
         </SafeAreaView>

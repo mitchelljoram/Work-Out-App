@@ -8,14 +8,14 @@ import { SetIcon } from "./icon";
 /* Libs */
 import { RepSet } from "../../libs/types-interfaces-classes";
 
-export const WeightedRepSetCard = (set: RepSet) => {
-    const index: number = set.id;
+export const WeightedSetCard = (set: RepSet) => {
+    const index: number = set.id+1;
     const [weight, setWeight] = useState<string>("lb");
 
     return (
         <View className="flex-row items-center mt-2">
             <View className="basis-[10%] mr-5">
-                <SetIcon index={index+1}/>
+                <SetIcon index={index}/>
             </View>
             <View className="bg-white basis-[40%] w-[151px] h-[30px] rounded-[4px] items-center mr-3">
                 <TextInput placeholder="Enter Weight" keyboardType="numeric" multiline={true} onChangeText={(text: String)=> set.setWeight(Number(text))}/>

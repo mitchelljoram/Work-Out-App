@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 /* Components */
-import { RepSetCard, TimeSetCard, WeightedRepSetCard } from "../set-cards";
+import { RepSetCard, TimeSetCard, WeightedSetCard } from "../set-cards";
 
 /* Libs */
 import { ExerciseSet, Set, RepSet, TimeSet, CustomSet } from "../../libs/types-interfaces-classes";
@@ -100,9 +100,15 @@ export const WeightedExerciseSetCard = (exerciseSet: ExerciseSet) => {
                 return (
                 <View key={index} className="mb-2">
                     {setCardProps.sets[0] instanceof RepSet ? (
-                    <Text className="text-white">{` ${setCardProps.minReps === setCardProps.maxReps ? setCardProps.minReps : `${setCardProps.minReps} - ${setCardProps.maxReps}`}  x  ${setCardProps.numSets}`}</Text>
+                    <Text className="text-white">{` ${setCardProps.minReps === setCardProps.maxReps ? setCardProps.minReps : `${setCardProps.minReps}  -  ${setCardProps.maxReps}`}  x  ${setCardProps.numSets}`}</Text>
                     ) : null}
-                    {setCardProps.sets.map((set: Set, index: number) => {return (<WeightedRepSetCard key={index} {...set}/>)})}
+                    {setCardProps.sets[0] instanceof TimeSet ? (
+                    <Text className="text-white">{` ${setCardProps.time}  x  ${setCardProps.numSets}`}</Text>
+                    ) : null}
+                    {setCardProps.sets[0] instanceof CustomSet ? (
+                    <Text className="text-white">{` ${setCardProps.custom}  x  ${setCardProps.numSets}`}</Text>
+                    ) : null}
+                    {setCardProps.sets.map((set: Set, index: number) => {return (<WeightedSetCard key={index} {...set}/>)})}
                 </View>
                 )
             })}

@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView , Text, Pressable, Button } from "react-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 /* Components */
-import { RepSetCard, TimeSetCard } from "../set-cards";
+import { RepSetCard, TimeSetCard, CustomSetCard } from "../set-cards";
 
 /* Libs */
 import { ExerciseSet, Set, RepSet, TimeSet, CustomSet } from "../../libs/types-interfaces-classes";
@@ -29,6 +29,21 @@ export const ExerciseSetCard = (exerciseSet: ExerciseSet) => {
                     <Text className="text-[#858587]"> sets</Text>
                 </View>
             </View>
+            {exerciseSet.sets.map((set: Set, index: number) => {
+                return (
+                <View key={index} className="mb-2">
+                    {set instanceof RepSet ? (
+                    <RepSetCard {...set}/>
+                    ) : null}
+                    {set instanceof TimeSet ? (
+                    <TimeSetCard {...set}/>
+                    ) : null}
+                    {set instanceof CustomSet ? (
+                    <CustomSetCard {...set}/>
+                    ) : null}
+                </View>
+                )
+            })}
         </View>
     );
 };
