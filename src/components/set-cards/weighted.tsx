@@ -18,7 +18,7 @@ export const WeightedSetCard = (set: RepSet) => {
                 <SetIcon index={index}/>
             </View>
             <View className="bg-white basis-[40%] w-[151px] h-[30px] rounded-[4px] items-center mr-3">
-                <TextInput placeholder="Enter Weight" keyboardType="numeric" multiline={true} onChangeText={(text: String)=> set.setWeight(Number(text))}/>
+                <TextInput className="text-center" placeholder="Enter Weight" keyboardType="numeric" multiline={true} onChangeText={(text: String)=> set.setWeight(Number(text))}/>
             </View>
             <Pressable className="basis-[20%]" onPress={() => {if (weight === "lb") {setWeight("kg")} else{setWeight("lb")}}}>
                 <Icon name={weight === "lb" ? "weight-pound" : "weight-kilogram"} size={30} color="#fff"/>
