@@ -28,56 +28,67 @@ export const WeightedExerciseSetCard = (exerciseSet: ExerciseSet) => {
     let sets: Set[] = [exerciseSet.sets[0]];
     let setCards: SetCardProps[] = [];
 
-    exerciseSet.sets.forEach((set: Set, index: number) => {
-        if (index === 0) { return; }
-
-        if (set instanceof RepSet) {
-            if (set.minReps === minReps && set.maxReps === maxReps) {
-                sets.push(set);
-            }
-            else {
-                setCards.push({minReps: minReps, maxReps: maxReps, sets: sets, numSets: sets.length});
-                minReps = set.minReps;
-                maxReps = set.maxReps;
-                sets = [set];
-            }
-
-            if (index+1 === exerciseSet.sets.length) {
-                setCards.push({minReps: minReps, maxReps: maxReps, sets: sets, numSets: sets.length});
-            }
-            return;
+    if (exerciseSet.sets.length === 1) {
+        if (exerciseSet.sets[0] instanceof RepSet) {
+            setCards.push({minReps: minReps, maxReps: maxReps, sets: sets, numSets: 1});
         }
-        else if (set instanceof TimeSet) {
-            if (set.time === time) {
-                sets.push(set);
-            }
-            else {
-                setCards.push({time: time, sets: sets, numSets: sets.length});
-                time = set.time;
-                sets = [set];
-            }
-
-            if (index+1 === exerciseSet.sets.length) {
-                setCards.push({time: time, sets: sets, numSets: sets.length});
-            }
-            return;
+        else if (exerciseSet.sets[0] instanceof TimeSet) {
+            setCards.push({time: time, sets: sets, numSets: 1});
         }
-        else if (set instanceof CustomSet) {
-            if (set.custom === custom) {
-                sets.push(set);
-            }
-            else {
-                setCards.push({custom: custom, sets: sets, numSets: sets.length});
-                custom = set.custom;
-                sets = [set];
-            }
-
-            if (index+1 === exerciseSet.sets.length) {
-                setCards.push({custom: custom, sets: sets, numSets: sets.length});
-            }
-            return;
+        else if (exerciseSet.sets[0] instanceof CustomSet) {
+            setCards.push({custom: custom, sets: sets, numSets: 1});
         }
-    });
+    }
+    else {
+        exerciseSet.sets.forEach((set: Set, index: number) => {
+            if (set instanceof RepSet) {
+                if (set.minReps === minReps && set.maxReps === maxReps) {
+                    sets.push(set);
+                }
+                else {
+                    setCards.push({minReps: minReps, maxReps: maxReps, sets: sets, numSets: sets.length});
+                    minReps = set.minReps;
+                    maxReps = set.maxReps;
+                    sets = [set];
+                }
+
+                if (index+1 === exerciseSet.sets.length) {
+                    setCards.push({minReps: minReps, maxReps: maxReps, sets: sets, numSets: sets.length});
+                }
+                return;
+            }
+            else if (set instanceof TimeSet) {
+                if (set.time === time) {
+                    sets.push(set);
+                }
+                else {
+                    setCards.push({time: time, sets: sets, numSets: sets.length});
+                    time = set.time;
+                    sets = [set];
+                }
+
+                if (index+1 === exerciseSet.sets.length) {
+                    setCards.push({time: time, sets: sets, numSets: sets.length});
+                }
+                return;
+            }
+            else if (set instanceof CustomSet) {
+                if (set.custom === custom) {
+                    sets.push(set);
+                }
+                else {
+                    setCards.push({custom: custom, sets: sets, numSets: sets.length});
+                    custom = set.custom;
+                    sets = [set];
+                }
+
+                if (index+1 === exerciseSet.sets.length) {
+                    setCards.push({custom: custom, sets: sets, numSets: sets.length});
+                }
+                return;
+            }
+        });
+    }
 
     return (
         <View key={exerciseSet.id} className="bg-[#1F1F1F] w-[360px] px-4 py-2 my-1 rounded-md">

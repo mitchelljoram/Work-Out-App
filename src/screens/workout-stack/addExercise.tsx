@@ -136,7 +136,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                             ) : null}
                                             {metric === "time" ? (
                                             <View className="bg-white basis-[100%] h-[30px] rounded-[4px] justify-center items-center">
-                                                <TextInput className="text-center" placeholder="00:00:00" keyboardType="default" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                <TextInput className="text-center" placeholder="hr.mn.sc" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
                                                     if(set.id === index) {
                                                         return {...set, time: text}
                                                     }
