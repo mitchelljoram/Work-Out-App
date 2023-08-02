@@ -120,6 +120,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                     </View>
                                     <View className="basis-[40%]">
                                         <View className="flex flex-row">
+                                            {/* TODO: keyboards bug after changing metrics */}
                                             {metric === "reps" ? (
                                             <View className="bg-white basis-[100%] h-[30px] rounded-[4px] justify-center items-center flex-row">
                                                 <TextInput className="text-center" placeholder="min" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
