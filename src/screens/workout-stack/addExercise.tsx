@@ -46,7 +46,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                     <Pressable className="ml-5" onPress={() => { navigation.navigate("Tab-Screen" as never); }}>
                         <Icon name="close" size={20} color="#858587"/>
                     </Pressable>
-                    <Text className="text-white">Add Exercise Screen</Text>
+                    <Text className="text-white">Add Exercise</Text>
                     <Pressable className="mr-5" onPress={() => { }}>
                         <Icon name="help-circle-outline" size={20} color="#858587"/>
                     </Pressable>
@@ -123,12 +123,14 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                             {/* TODO: keyboards bug after changing metrics */}
                                             {metric === "reps" ? (
                                             <View className="bg-white basis-[100%] h-[30px] rounded-[4px] justify-center items-center flex-row">
-                                                <TextInput className="text-center" placeholder="min" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                <TextInput className="text-left" placeholder="min" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
                                                     if(set.id === index) return ({...set, minReps: Number(text)})
                                                     return set;
                                                 }))}/>
-                                                <Text>       -       </Text>
-                                                <TextInput className="text-center" placeholder="max" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                <View className="mx-5">
+                                                    <Icon name="minus" size={20} color="#757575"/>
+                                                </View>
+                                                <TextInput className="text-left" placeholder="max" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
                                                     if(set.id === index) return ({...set, maxReps: Number(text)})
                                                     return set;
                                                 }))}/>
@@ -136,7 +138,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                             ) : null}
                                             {metric === "time" ? (
                                             <View className="bg-white basis-[100%] h-[30px] rounded-[4px] justify-center items-center">
-                                                <TextInput className="text-center" placeholder="hr.mn.sc" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                <TextInput className="text-right" placeholder="hr.mn.sc" keyboardType="numeric" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
                                                     if(set.id === index) {
                                                         return {...set, time: text}
                                                     }
@@ -146,7 +148,7 @@ export const AddExerciseSetScreen = (newExerciseId: number) => {
                                             ) : null}
                                             {metric === "custom" ? (
                                             <View className="bg-white basis-[100%] h-[30px] rounded-[4px] justify-center items-center">
-                                                <TextInput className="text-center" placeholder="e.g. 1 - 2 laps" keyboardType="default" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
+                                                <TextInput className="text-left" placeholder="e.g. 1 - 2 laps" keyboardType="default" onChangeText={(text)=> setSets([...sets].map((set: SetProps) => {
                                                     if(set.id === index) {
                                                         return {...set, custom: text};
                                                     }

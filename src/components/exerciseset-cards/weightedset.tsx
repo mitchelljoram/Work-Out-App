@@ -25,19 +25,12 @@ export const WeightedExerciseSetCard = (exerciseSet: ExerciseSet) => {
     let maxReps: number = exerciseSet.sets[0] instanceof RepSet ? exerciseSet.sets[0].maxReps : 0;
     let time: string = exerciseSet.sets[0] instanceof TimeSet ? exerciseSet.sets[0].time : "";
     let custom: string = exerciseSet.sets[0] instanceof CustomSet ? exerciseSet.sets[0].custom : "";
-    let sets: Set[] = [exerciseSet.sets[0]];
+    let sets: Set[] = [];
     let setCards: SetCardProps[] = [];
 
     if (exerciseSet.sets.length === 1) {
-        if (exerciseSet.sets[0] instanceof RepSet) {
-            setCards.push({minReps: minReps, maxReps: maxReps, sets: sets, numSets: 1});
-        }
-        else if (exerciseSet.sets[0] instanceof TimeSet) {
-            setCards.push({time: time, sets: sets, numSets: 1});
-        }
-        else if (exerciseSet.sets[0] instanceof CustomSet) {
-            setCards.push({custom: custom, sets: sets, numSets: 1});
-        }
+        sets.push(exerciseSet.sets[0]);
+        setCards.push({minReps: minReps, maxReps: maxReps, time: time, custom: custom, sets: sets, numSets: 1});
     }
     else {
         exerciseSet.sets.forEach((set: Set, index: number) => {
